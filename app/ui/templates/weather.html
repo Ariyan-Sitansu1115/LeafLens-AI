@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><path fill='%2300c853' d='M50 5C20 20 10 50 50 95C90 50 80 20 50 5Z'/></svg>">
+    <title>{{ app_name }} – Weather</title>
+    <meta name="description" content="Weather information for farmers." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/static/css/styles.css" />
+  </head>
+  <body>
+    <div class="bg-video" aria-hidden="true">
+      <img class="bg-video__media" src="/dashboard-background" alt="" />
+      <div class="bg-video__overlay"></div>
+    </div>
+
+    <div class="bg-orb orb-1" aria-hidden="true"></div>
+    <div class="bg-orb orb-2" aria-hidden="true"></div>
+
+    <header class="topbar">
+      <div class="container">
+        <div class="brand">
+          <div class="logo" aria-label="LeafLens logo">
+            <span class="leaf-icon">🌿</span>
+            <span class="logo-word"><span class="logo-leaf">Leaf</span><span class="logo-lens">Lens</span></span>
+          </div>
+          <div class="tagline">{{ tagline }}</div>
+        </div>
+
+        <nav class="nav">
+          <a class="nav-link" href="/" data-i18n="nav_predict">Predict</a>
+          <a class="nav-link" href="/weather" data-i18n="nav_weather">Weather</a>
+          <a class="nav-link" href="/insight" data-i18n="nav_insight">LeafLens Insight</a>
+          <a class="nav-link" href="/chatbot" data-i18n="nav_chatbot">Insight Chatbot</a>
+          {% if is_admin %}
+          <a class="nav-link" href="/admin/dashboard">Admin Dashboard</a>
+          {% endif %}
+          <span class="nav-link">Hi, {{ auth_user }}</span>
+          <a class="nav-link" href="/logout">Logout</a>
+          <a class="nav-link" href="/#about" data-i18n="nav_about">About</a>
+          <a class="nav-link" href="/docs" target="_blank" rel="noreferrer" data-i18n="nav_docs">Documentation</a>
+          <div class="select-wrap" style="min-width: 220px;">
+            <select id="global-language-select-weather" class="select global-language-select" aria-label="Select dashboard language" data-i18n-aria-label="label_language"></select>
+            <div class="select-icon" aria-hidden="true">▾</div>
+          </div>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container main">
+      <section class="grid">
+        <div class="card card-hero">
+          <div class="card-header">
+            <h1 class="h1" data-i18n="weather_title">Weather</h1>
+            <p class="muted" data-i18n="weather_subtitle">
+              Get current weather data for your location. Optionally enter a city name.
+            </p>
+          </div>
+
+          <div id="weather-alert" class="alert hidden" role="alert"></div>
+
+          <form id="weather-form" class="form" autocomplete="off">
+            <div class="row">
+              <label class="label" for="weather-city" data-i18n="location_label">City (optional)</label>
+              <input
+                id="weather-city"
+                type="text"
+                name="city"
+                class="input"
+                placeholder="e.g. Delhi, Mumbai"
+                data-i18n-placeholder="city_placeholder"
+                autocomplete="off"
+              />
+              <div class="hint" data-i18n="weather_city_hint">Leave blank to use auto-detected location.</div>
+            </div>
+
+            <div class="row">
+              <label class="label" for="weather-language" data-i18n="label_language">Language</label>
+              <div class="select-wrap">
+                <select id="weather-language" name="language" class="select global-language-select"></select>
+                <div class="select-icon" aria-hidden="true">▾</div>
+              </div>
+            </div>
+
+            <div class="actions">
+              <button id="weather-btn" class="btn btn-primary" type="submit">
+                <span class="btn-label" data-i18n="btn_get_weather">Get Weather</span>
+                <span id="weather-spinner" class="spinner hidden" aria-hidden="true"></span>
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <div class="stack">
+          <div id="weather-result-card" class="card hidden">
+            <div id="weather-report" class="weather-report">
+              <h3 id="weatherTitle" data-i18n="weather_report">Weather Report</h3>
+              <div class="weather-cards">
+                <div class="weather-card">
+                  <div class="weather-icon">🌡</div>
+                  <div class="weather-label" data-i18n="weather_display.temperature">Temperature</div>
+                  <div class="weather-value" id="tempValue">--</div>
+                </div>
+                <div class="weather-card">
+                  <div class="weather-icon">💧</div>
+                  <div class="weather-label" data-i18n="weather_display.humidity">Humidity</div>
+                  <div class="weather-value" id="humidityValue">--</div>
+                </div>
+                <div class="weather-card">
+                  <div class="weather-icon">🌧</div>
+                  <div class="weather-label" data-i18n="weather_display.rainfall">Rainfall</div>
+                  <div class="weather-value" id="rainValue">--</div>
+                </div>
+                <div class="weather-card">
+                  <div class="weather-icon">💨</div>
+                  <div class="weather-label" data-i18n="weather_display.wind_speed">Wind Speed</div>
+                  <div class="weather-value" id="windValue">--</div>
+                </div>
+                <div class="weather-card">
+                  <div class="weather-icon">☁</div>
+                  <div class="weather-label" data-i18n="weather_display.clouds">Cloud Cover</div>
+                  <div class="weather-value" id="cloudValue">--</div>
+                </div>
+                <div class="weather-card">
+                  <div class="weather-icon">🌤</div>
+                  <div class="weather-label" data-i18n="weather_display.condition">Condition</div>
+                  <div class="weather-value" id="conditionValue">--</div>
+                </div>
+              </div>
+            </div>
+            <div id="weather-result-content" class="hidden"></div>
+          </div>
+        </div>
+      </section>
+
+      <footer class="footer">
+        <div class="muted">
+          © <span id="year"></span> LeafLens. <span data-i18n="footer_tagline">Built for fast field decisions.</span>
+        </div>
+      </footer>
+    </main>
+
+    <script src="/static/js/i18n.js" defer></script>
+    <script src="/static/js/weather.js" defer></script>
+  </body>
+</html>

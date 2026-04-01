@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{{ app_name }} – Admin Dashboard</title>
+    <link rel="stylesheet" href="/static/css/styles.css" />
+  </head>
+  <body>
+    <div class="bg-video" aria-hidden="true">
+      <img class="bg-video__media" src="/dashboard-background" alt="" />
+      <div class="bg-video__overlay"></div>
+    </div>
+
+    <header class="topbar">
+      <div class="container">
+        <div class="brand">
+          <div class="logo" aria-label="LeafLens logo">
+            <span class="leaf-icon">🌿</span>
+            <span class="logo-word"><span class="logo-leaf">Leaf</span><span class="logo-lens">Lens</span></span>
+          </div>
+          <div class="tagline">{{ tagline }}</div>
+        </div>
+        <nav class="nav">
+          <a class="nav-link" href="/">Predict</a>
+          <a class="nav-link" href="/weather">Weather</a>
+          <a class="nav-link" href="/insight">LeafLens Insight</a>
+          <a class="nav-link" href="/chatbot">Insight Chatbot</a>
+          <span class="nav-link">Hi, {{ auth_user }}</span>
+          <a class="nav-link" href="/logout">Logout</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container main">
+      <section class="grid">
+        <div class="card card-hero">
+          <div class="card-header">
+            <h1 class="h1">Admin Dashboard</h1>
+            <p class="muted">Registered users visible only to admin.</p>
+          </div>
+          <div class="section-title">Total Users: {{ user_count }}</div>
+        </div>
+
+        <div class="card">
+          <div class="card-header tight">
+            <h2 class="h2">Saved User Information</h2>
+          </div>
+
+          {% if users %}
+          <div style="overflow-x:auto;">
+            <table class="table" style="width:100%; border-collapse: collapse;">
+              <thead>
+                <tr>
+                  <th style="text-align:left; padding:12px; border-bottom:1px solid rgba(255,255,255,0.15);">ID</th>
+                  <th style="text-align:left; padding:12px; border-bottom:1px solid rgba(255,255,255,0.15);">Username</th>
+                  <th style="text-align:left; padding:12px; border-bottom:1px solid rgba(255,255,255,0.15);">Email</th>
+                  <th style="text-align:left; padding:12px; border-bottom:1px solid rgba(255,255,255,0.15);">Created</th>
+                  <th style="text-align:left; padding:12px; border-bottom:1px solid rgba(255,255,255,0.15);">Last Login</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for user in users %}
+                <tr>
+                  <td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.08);">{{ user.id }}</td>
+                  <td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.08);">{{ user.username }}</td>
+                  <td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.08);">{{ user.email }}</td>
+                  <td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.08);">{{ user.created_at }}</td>
+                  <td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.08);">{{ user.last_login_at }}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+          {% else %}
+          <div class="muted">No users have logged in yet.</div>
+          {% endif %}
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

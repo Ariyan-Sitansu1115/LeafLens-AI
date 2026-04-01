@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><path fill='%2300c853' d='M50 5C20 20 10 50 50 95C90 50 80 20 50 5Z'/></svg>">
+    <title>{{ app_name }} – Insight Chatbot</title>
+    <meta name="description" content="Disease-aware LeafLens chatbot for post-prediction support." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/static/css/styles.css" />
+  </head>
+  <body>
+    <div class="bg-video" aria-hidden="true">
+      <img class="bg-video__media" src="/dashboard-background" alt="" />
+      <div class="bg-video__overlay"></div>
+    </div>
+
+    <div class="bg-orb orb-1" aria-hidden="true"></div>
+    <div class="bg-orb orb-2" aria-hidden="true"></div>
+
+    <header class="topbar">
+      <div class="container">
+        <div class="brand">
+          <div class="logo" aria-label="LeafLens logo">
+            <span class="leaf-icon">🌿</span>
+            <span class="logo-word"><span class="logo-leaf">Leaf</span><span class="logo-lens">Lens</span></span>
+          </div>
+          <div class="tagline">{{ tagline }}</div>
+        </div>
+
+        <nav class="nav">
+          <a class="nav-link" href="/" data-i18n="nav_predict">Predict</a>
+          <a class="nav-link" href="/weather" data-i18n="nav_weather">Weather</a>
+          <a class="nav-link" href="/insight" data-i18n="nav_insight">LeafLens Insight</a>
+          <a class="nav-link" href="/chatbot" data-i18n="nav_chatbot">Insight Chatbot</a>
+          {% if is_admin %}
+          <a class="nav-link" href="/admin/dashboard">Admin Dashboard</a>
+          {% endif %}
+          <span class="nav-link">Hi, {{ auth_user }}</span>
+          <a class="nav-link" href="/logout">Logout</a>
+          <a class="nav-link" href="/#about" data-i18n="nav_about">About</a>
+          <a class="nav-link" href="/docs" target="_blank" rel="noreferrer" data-i18n="nav_docs">Documentation</a>
+          <div class="select-wrap" style="min-width: 220px;">
+            <select id="global-language-select-chatbot" class="select global-language-select" aria-label="Select dashboard language" data-i18n-aria-label="label_language"></select>
+            <div class="select-icon" aria-hidden="true">▾</div>
+          </div>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container main">
+      <section class="grid">
+        <div class="card card-hero">
+          <div class="card-header">
+            <h1 class="h1" data-i18n="chatbot_title">LeafLens Insight Chatbot</h1>
+            <p class="muted" data-i18n="chatbot_subtitle">Talk with AI about the disease predicted from your uploaded leaf image.</p>
+          </div>
+
+          <div id="chatbot-alert" class="alert hidden" role="alert"></div>
+
+          <div class="chatbot-context">
+            <div class="section-title" data-i18n="chatbot_detected_context">Detected disease context</div>
+            <div id="chatbot-context-text" class="muted" data-i18n="chatbot_waiting_prediction">Run a prediction first. Then open this chatbot from the result card.</div>
+          </div>
+
+          <div class="chatbot-input-row">
+            <input
+              id="chatbot-input"
+              type="text"
+              class="input"
+              autocomplete="off"
+              data-i18n-placeholder="chatbot_input_placeholder"
+              placeholder="Ask about symptoms, treatment, prevention..."
+            />
+            <button id="chatbot-send" class="btn btn-primary" type="button">
+              <span class="btn-label" data-i18n="chatbot_send">Send</span>
+              <span id="chatbot-spinner" class="spinner hidden" aria-hidden="true"></span>
+            </button>
+          </div>
+        </div>
+
+        <div class="stack">
+          <div class="card">
+            <div class="card-header tight">
+              <h2 class="h2" data-i18n="chatbot_conversation">Conversation</h2>
+            </div>
+            <div id="chatbot-chat" class="chat chatbot-chat-scroll"></div>
+          </div>
+        </div>
+      </section>
+
+      <footer class="footer">
+        <div class="muted">
+          © <span id="year"></span> LeafLens. <span data-i18n="footer_tagline">Built for fast field decisions.</span>
+        </div>
+      </footer>
+    </main>
+
+    <script src="/static/js/i18n.js" defer></script>
+    <script src="/static/js/chatbot.js" defer></script>
+  </body>
+</html>

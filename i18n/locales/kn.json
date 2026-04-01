@@ -1,0 +1,33 @@
+{
+  "app_name": "LeafLens-AI",
+  "app_tagline": "ಸ್ಮಾರ್ಟ್ ಕೃಷಿ ಡ್ಯಾಶ್‌ಬೋರ್ಡ್",
+  "nav_weather": "ಹವಾಮಾನ",
+  "nav_combined": "ಒಕ್ಕೂಟ ದೃಶ್ಯ",
+  "status_online": "ಆನ್‌ಲೈನ್",
+  "status_offline": "ಆಫ್‌ಲೈನ್",
+
+  "weather_title": "ಹವಾಮಾನ ವ್ಯವಸ್ಥೆ",
+  "weather_subtitle": "ನಿಮ್ಮ ಸ್ಥಳಕ್ಕೆ ತಾಜಾ ಹವಾಮಾನ ಮಾಹಿತಿ",
+  "location_label": "ಸ್ಥಳ ಆಯ್ಕೆ",
+  "city_placeholder": "ನಗರದ ಹೆಸರು ನಮೂದಿಸಿ",
+  "btn_auto_detect": "ಸ್ವಯಂ ಪತ್ತೆ",
+  "btn_get_weather": "ಹವಾಮಾನ ಪಡೆಯಿರಿ",
+  "loading_weather": "ಹವಾಮಾನ ಡೇಟಾ ಪಡೆಯಲಾಗುತ್ತಿದೆ...",
+
+  "weather_display": {
+    "temperature": "ತಾಪಮಾನ",
+    "humidity": "ಆರ್ದ್ರತೆ",
+    "rainfall": "ಮಳೆ",
+    "wind_speed": "ಗಾಳಿಯ ವೇಗ",
+    "clouds": "ಮೋಡಗಳು",
+    "condition": "ಸ್ಥಿತಿ"
+  },
+
+  "disease_risks": "ರೋಗ ಅಪಾಯ ಮೌಲ್ಯಮಾಪನ",
+  "confidence": "ವಿಶ್ವಾಸ",
+  "advisories": "ಕೃಷಿ ಸಲಹೆಗಳು",
+  "success_message": "ಯಶಸ್ಸು!",
+  "error_message": "ದೋಷ!",
+  "loading": "ಲೋಡ್ ಆಗುತ್ತಿದೆ...",
+  "please_select": "ದಯವಿಟ್ಟು ಆಯ್ಕೆಮಾಡಿ"
+}

@@ -1,3 +1,11 @@
+# ML Models (IMPORTANT)
+app/models/
+models/
+*.h5
+*.pth
+*.pkl
+*.save
+training/checkpoints/
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]

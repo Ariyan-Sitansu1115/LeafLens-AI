@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><path fill='%2300c853' d='M50 5C20 20 10 50 50 95C90 50 80 20 50 5Z'/></svg>">
+    <title>{{ app_name }} – LeafLens Insight</title>
+    <meta name="description" content="Real-time IoT sensor and short-term forecast insights." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/static/css/styles.css?v=insight-v2" />
+  </head>
+  <body>
+    <div class="bg-video" aria-hidden="true">
+      <img class="bg-video__media" src="/dashboard-background" alt="" />
+      <div class="bg-video__overlay"></div>
+    </div>
+
+    <div class="bg-orb orb-1" aria-hidden="true"></div>
+    <div class="bg-orb orb-2" aria-hidden="true"></div>
+
+    <header class="topbar">
+      <div class="container">
+        <div class="brand">
+          <div class="logo" aria-label="LeafLens logo">
+            <span class="leaf-icon">🌿</span>
+            <span class="logo-word"><span class="logo-leaf">Leaf</span><span class="logo-lens">Lens</span></span>
+          </div>
+          <div class="tagline">{{ tagline }}</div>
+        </div>
+
+        <nav class="nav">
+          <a class="nav-link" href="/" data-i18n="nav_predict">Predict</a>
+          <a class="nav-link" href="/weather" data-i18n="nav_weather">Weather</a>
+          <a class="nav-link" href="/insight" data-i18n="nav_insight">LeafLens Insight</a>
+          <a class="nav-link" href="/chatbot" data-i18n="nav_chatbot">Insight Chatbot</a>
+          {% if is_admin %}
+          <a class="nav-link" href="/admin/dashboard">Admin Dashboard</a>
+          {% endif %}
+          <span class="nav-link">Hi, {{ auth_user }}</span>
+          <a class="nav-link" href="/logout">Logout</a>
+          <a class="nav-link" href="/#about" data-i18n="nav_about">About</a>
+          <a class="nav-link" href="/docs" target="_blank" rel="noreferrer" data-i18n="nav_docs">Documentation</a>
+          <div class="select-wrap" style="min-width: 220px;">
+            <select id="global-language-select-insight" class="select global-language-select" aria-label="Select dashboard language" data-i18n-aria-label="label_language"></select>
+            <div class="select-icon" aria-hidden="true">▾</div>
+          </div>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container main">
+      <section class="grid">
+        <div class="card card-hero">
+          <div class="card-header">
+            <h1 class="h1" data-i18n="insight_title">LeafLens Insight</h1>
+            <p class="muted" data-i18n="insight_subtitle">Real-time IoT readings and a 3-day weather forecast.</p>
+          </div>
+
+          <div id="insight-alert" class="alert hidden" role="alert"></div>
+
+          <div class="form">
+            <div class="actions">
+              <button id="insight-refresh" class="btn btn-primary" type="button">
+                <span class="btn-label" data-i18n="refresh">Refresh</span>
+                <span id="insight-spinner" class="spinner hidden" aria-hidden="true"></span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="stack">
+          <div id="sensor-card" class="card">
+            <div class="card-header tight">
+              <h2 class="h2" data-i18n="current_field_data">Current Field Data</h2>
+            </div>
+
+            <div class="sensor-grid">
+              <div class="card sensor-item">
+                <div class="card-header tight"><div class="muted" data-i18n="weather_display.temperature">Temperature</div></div>
+                <div class="h2" id="sensor-temp">Loading...</div>
+              </div>
+
+              <div class="card sensor-item">
+                <div class="card-header tight"><div class="muted" data-i18n="weather_display.humidity">Humidity</div></div>
+                <div class="h2" id="sensor-humidity">Loading...</div>
+              </div>
+
+              <div class="card sensor-item">
+                <div class="card-header tight"><div class="muted" data-i18n="soil_moisture">Soil Moisture</div></div>
+                <div class="h2" id="sensor-soil">Loading...</div>
+              </div>
+
+              <div class="card sensor-item">
+                <div class="card-header tight"><div class="muted" data-i18n="stress_index">Stress Index</div></div>
+                <div class="h2" id="sensor-stress">Loading...</div>
+              </div>
+            </div>
+          </div>
+
+          <div id="rain-card" class="card">
+            <div class="card-header tight">
+              <h2 class="h2" data-i18n="rain_prediction">Rain Prediction</h2>
+            </div>
+            <div class="rain-widget">
+              <div>
+                <div class="muted" data-i18n="rain_chance">Chance</div>
+                <div id="rain-chance" class="h2">Loading...</div>
+              </div>
+              <div class="rain-metrics">
+                <span id="rain-badge" class="rain-badge rain-low">Low</span>
+                <div id="rain-probability" class="rain-probability">0%</div>
+              </div>
+            </div>
+          </div>
+
+          <div id="carbon-card" class="card hidden" aria-live="polite">
+            <div class="card-header tight">
+              <h2 class="h2">Carbon Footprint Analyzer</h2>
+            </div>
+
+            <div class="carbon-grid">
+              <div class="carbon-item">
+                <div class="muted">🌍 Carbon Footprint</div>
+                <div class="h2" id="carbon-co2">0.000 kg CO₂</div>
+              </div>
+              <div class="carbon-item">
+                <div class="muted">📊 Status</div>
+                <div class="h2"><span id="carbon-status-legacy" class="carbon-status-badge carbon-status-low">Low</span></div>
+              </div>
+              <div class="carbon-item">
+                <div class="muted">🌱 Eco Score</div>
+                <div class="h2" id="carbon-eco-score">0/100</div>
+              </div>
+              <div class="carbon-item carbon-tip-item">
+                <div class="muted">💡 Tip</div>
+                <div class="h2 carbon-tip" id="carbon-tip-legacy">Good sustainable farming practice</div>
+              </div>
+            </div>
+
+            <div id="carbon-chart-wrap" class="carbon-chart-wrap hidden">
+              <canvas id="carbon-chart" height="140" aria-label="Carbon emission trend"></canvas>
+            </div>
+          </div>
+
+          <div id="forecast-card" class="card">
+            <div class="card-header tight">
+              <h2 class="h2" data-i18n="forecast_next_3_days">Forecast (Next 3 Days)</h2>
+            </div>
+
+            <div id="forecast-list" class="forecast-list muted" data-i18n="forecast_loading">Loading forecast…</div>
+          </div>
+
+          <div id="carbon-section" class="card" style="display: none;" aria-live="polite">
+            <div class="card-header tight">
+              <h2 class="h2">Irrigation + Carbon Footprint</h2>
+            </div>
+
+            <div class="sensor-grid">
+              <div class="card sensor-item">
+                <div class="card-header tight">
+                  <div class="muted">💧 Irrigation Status</div>
+                </div>
+                <div class="h2" id="irrigation-status">--</div>
+              </div>
+
+              <div class="card sensor-item">
+                <div class="card-header tight">
+                  <div class="muted">🌍 Carbon Footprint</div>
+                </div>
+                <div class="muted">CO₂</div>
+                <div class="h2" id="co2-value">0.000 kg CO₂</div>
+                <div class="muted" style="margin-top: 8px;">Status</div>
+                <div class="h2"><span id="carbon-status" class="carbon-status-badge carbon-status-low">Low</span></div>
+                <div class="muted" style="margin-top: 8px;">Eco Score</div>
+                <div class="h2" id="eco-score">0</div>
+                <div class="muted" style="margin-top: 8px;">Recommendation</div>
+                <div class="h2 carbon-tip" id="carbon-tip">--</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <footer class="footer">
+        <div class="muted">
+          © <span id="year"></span> LeafLens. <span data-i18n="footer_tagline">Built for fast field decisions.</span>
+        </div>
+      </footer>
+    </main>
+
+    <script src="/static/js/i18n.js?v=insight-v3" defer></script>
+    <script src="/static/js/insight.js?v=insight-v2" defer></script>
+  </body>
+</html>

@@ -1,0 +1,33 @@
+{
+  "app_name": "LeafLens-AI",
+  "app_tagline": "സ്മാർട്ട് കാർഷിക ഡാഷ്ബോർഡ്",
+  "nav_weather": "കാലാവസ്ഥ",
+  "nav_combined": "കൂട്ടിച്ചേർന്ന കാഴ്ച",
+  "status_online": "ഓൺലൈൻ",
+  "status_offline": "ഓഫ്‌ലൈൻ",
+
+  "weather_title": "കാലാവസ്ഥ സംവിധാനം",
+  "weather_subtitle": "നിങ്ങളുടെ സ്ഥലത്തേക്കുള്ള തത്സമയ കാലാവസ്ഥാ വിവരം",
+  "location_label": "സ്ഥലം തിരഞ്ഞെടുക്കുക",
+  "city_placeholder": "നഗരനാമം നൽകുക",
+  "btn_auto_detect": "സ്വയം കണ്ടെത്തുക",
+  "btn_get_weather": "കാലാവസ്ഥ നേടുക",
+  "loading_weather": "കാലാവസ്ഥാ ഡാറ്റ ലഭ്യമാക്കുന്നു...",
+
+  "weather_display": {
+    "temperature": "താപനില",
+    "humidity": "ഈർപ്പം",
+    "rainfall": "മഴ",
+    "wind_speed": "കാറ്റിന്റെ വേഗം",
+    "clouds": "മേഘാവരണം",
+    "condition": "സ്ഥിതി"
+  },
+
+  "disease_risks": "രോഗ ഭീഷണി വിലയിരുത്തൽ",
+  "confidence": "വിശ്വാസ്യത",
+  "advisories": "കൃഷി ഉപദേശങ്ങൾ",
+  "success_message": "വിജയം!",
+  "error_message": "പിശക്!",
+  "loading": "ലോഡ് ചെയ്യുന്നു...",
+  "please_select": "ദയവായി തിരഞ്ഞെടുക്കുക"
+}
